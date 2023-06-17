@@ -20,7 +20,7 @@ def quantifie(img, nb_bits):
     quantized_img = np.clip(quantized_img, min_value, max_value)#pour s assurer que la valeur reste dans l intervalle
     quantized_img = quantized_img.astype(np.uint8)#convertit les valeurs quantifiées en entiers non signés
     return quantized_img
-def sous_echantillonange(img, facteur):
+def sous_echantillonnage(img, facteur):
     """
     effectue un sous-echantillonage en reduisant les dimensions de l image
     selon le facteur en parametre
@@ -31,6 +31,16 @@ def sous_echantillonange(img, facteur):
     img_sous_echantillonee = cv2.resize(img, (nouvelle_largeur, nouvelle_hauteur), interpolation=cv2.INTER_NEAREST)
     #ici interpolation=cv2.INTER_NEAREST on dit que les pixels supprimé on veut qu'ils soient remplacé par des pixels voisins
     #c est une methode assez simple mais une perte d informations peut survenir
+    return img_sous_echantillonee
+def sur_echantillonnage(img, facteur):
+    """
+    effectue un sur-echantillonage en augmantant les dimensions de l image
+    selon le facteur en parametre
+    """
+    hauteur, largeur = img.shape[:2]
+    nouvelle_largeur = largeur * facteur
+    nouvelle_hauteur = hauteur * facteur
+    img_sous_echantillonee = cv2.resize(img, (nouvelle_largeur, nouvelle_hauteur), interpolation=cv2.INTER_NEAREST)
     return img_sous_echantillonee
 if __name__ == "__main__":
     """
@@ -47,14 +57,18 @@ if __name__ == "__main__":
     """
     nb_bits, facteur = 15, 10
     image_quantifiee = quantifie(image, nb_bits)
-    image_sous_echantillonee = sous_echantillonange(image, facteur)
-    plt.subplot(1, 3, 1)
+    image_sur_echantillonee = sur_echantillonnage(image, facteur)
+    image_sous_echantillonee = sous_echantillonnage(image, facteur)
+    plt.subplot(2, 2, 1)
     plt.imshow(image, cmap='gray')
     plt.title('Image originale')
-    plt.subplot(1, 3, 2)
+    plt.subplot(2, 2, 2)
     plt.imshow(image_quantifiee, cmap='gray')
     plt.title('Image quantifiée')
-    plt.subplot(1, 3, 3)
+    plt.subplot(2, 2, 3)
+    plt.imshow(image_sur_echantillonee, cmap='gray')
+    plt.title('image sur echantillonée')
+    plt.subplot(2, 2, 4)
     plt.imshow(image_sous_echantillonee, cmap='gray')
     plt.title('image sous echantillonée')
     plt.show()

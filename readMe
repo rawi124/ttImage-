@@ -27,3 +27,7 @@ on observe bien que on conserve un pixel sur deux sur les lignes et les colonnes
 
 une autre question se pose, ces pixels supprimés, comment sont-ils remplacés ? 
 plusieurs approches existent aussi, dans le code nous avons utilisé interpolation=cv2.INTER_NEAREST pour dire qu'on remplace les pixels en regardant les pixels voisins. 
+
+****le sur echantillonage consiste en l'augmentation de la taille des images pour ajouter des details entre les pixels existants, cela peut etre utile dans certains cas tel que l'agrandissement d'une image pour l'impression ou pour améliorer la qualité visuelle.
+
+lors de ce traitement, des effets indesirables tel qu'un bruit peuvent se produire lorsqu'une image est agrandie( contours irreguliers, escaliers ..) ====> appliquer un filtre de lissage 
